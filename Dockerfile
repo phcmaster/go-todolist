@@ -1,19 +1,19 @@
 # stage de build
-FROM golang:1.21 AS build
+FROM public.ecr.aws/docker/library/golang:alpine3.19 AS build
 
 WORKDIR /app
 
 COPY . /app
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o todo-do main.go
+RUN GOOS=linux go build -o todoapi main.go
 
 # stage imagem final
 FROM scratch
 
 WORKDIR /app
 
-COPY --from=build /app/api ./
+COPY --from=build /app/todoapi ./
 
 EXPOSE 8081
 
-CMD [ "./todo-do" ]
+CMD [ "./todoapi" ]
