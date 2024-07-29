@@ -14,6 +14,12 @@ type Todo struct {
 	Completed bool   `josn:"Completed"`
 }
 
+func heathCheck(w http.ResponseWriter, r *http.Request) {
+	log.Println("Health check OK")
+	var healthCheckStatus = "Health check OK"
+	json.NewEncoder(w).Encode(healthCheckStatus)
+}
+
 var todos = []Todo{
 	{ID: "1", Item: "Put the trash outsite", Completed: false},
 	{ID: "2", Item: "Buy water", Completed: true},
@@ -67,6 +73,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	router := mux.NewRouter()
+
+	router.HandleFunc("/", heathCheck).Methods("GET")
 
 	router.HandleFunc("/todos", getTodos).Methods("GET")
 
