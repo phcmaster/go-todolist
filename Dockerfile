@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . /app
 
-#RUN GOOS=linux go build -o todoapi main.go
+RUN go build -o todoapi main.go
 
 # stage imagem final
 FROM scratch
